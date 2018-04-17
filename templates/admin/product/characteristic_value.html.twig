@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block title %}Добавить значения характеристик{% endblock %}
+{% block body %}
+    <div class="ui one column grid ">
+        <div class="sixteen wide column" style="height: 100%">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_choose_product_images') }}" method="post">
+                    <div class="field">
+                        {% for product_characteristic in product_characteristics %}
+                            <div class="two fields">
+                                <div class="field">
+                                    <label>{{ product_characteristic.name }}</label>
+                                </div>
+                                <div class="field">
+                                    <input type="text" name="product_characteristics[{{ product_characteristic.id }}]">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <input hidden value="{{product_category_ids}}" name="product_category_ids"/>
+                    <input class="ui fluid tiny button" type="submit" value="Далее" />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "/base.html.twig" %}
+{% block title %}Удалить категорию{% endblock %}
+{% block body %}
+
+    <div class="ui two column grid ">
+        <div class="six wide column">
+            <div class="ui piled segment">
+                <a class="ui tag label" href="/admin/category/create">Все категории</a>
+            </div>
+        </div>
+        <div class="ten wide column">
+            <div class="ui piled segment">
+                <p>Вы уверены, что хотите удалить категорию  "{{ category.name }}" ?</p>
+                <div class="ui buttons">
+                    <a class="ui button" href="/admin/category/create">Нет</a>
+                    <div class="or"></div>
+                    <a class="ui positive button" type="submit" href="/admin/category/delete/{{ category.id }}/yes">Да</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

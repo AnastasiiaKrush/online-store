@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block title %}Добавить продукт{% endblock %}
+{% block body %}
+    <div class="ui one column grid ">
+        <div class="sixteen wide column" style="height: 100%">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_choose_product_category_characteristic') }}" method="post">
+                    <div class="field">
+                        <select class="ui fluid dropdown" multiple="" name="product[category][]">
+                            <option value="">Выбрать категории товара</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input class="ui fluid tiny button" type="submit" value="Далее" />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

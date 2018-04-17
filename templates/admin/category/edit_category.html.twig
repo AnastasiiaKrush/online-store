@@ -1,0 +1,38 @@
+{% extends "/base.html.twig" %}
+{% block title %}Редактировать категорию{% endblock %}
+{% block body %}
+
+    <div class="ui two column grid ">
+        <div class="six wide column">
+            <div class="ui piled segment">
+                <a class="ui tag label" href="/admin/category/create">Все категории</a>
+            </div>
+        </div>
+        <div class="ten wide column">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_edit_category', {'id': category.id}) }}" method="post">
+
+                    <a class="ui teal ribbon label">Добавить категорию</a>
+
+                    <div class="ui transparent input" id="new-category-name-input">
+                        <input type="text" value="{{ category.name }}" name="category[name]">
+                    </div>
+
+                    <input class="ui fluid tiny button" type="submit" value="Отправить" />
+                    {{ form_row(form._token) }}
+                </form>
+                {% if  errors is defined %}
+                    <div class="ui mini red message">
+                        {% for error in errors %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% elseif success is defined %}
+                    <div class="ui mini green message">
+                    {{  'Изменения успешно сохранены.' }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

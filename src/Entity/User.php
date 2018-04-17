@@ -54,10 +54,17 @@ class User implements UserInterface, \Serializable
      */
     private $is_active;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $role_id;
+
+
     public function __construct()
     {
         $this->is_active = true;
     }
+
     public function getSalt()
     {
         return null;
@@ -65,7 +72,10 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        if ($this->role_id == 1) {
+            return ['ROLE_ADMIN'];
+        }
+        return ['ROLE_USER'];
     }
 
     public function eraseCredentials()
@@ -194,6 +204,18 @@ class User implements UserInterface, \Serializable
     public function setIsActive(bool $is_active): self
     {
         $this->is_active = $is_active;
+
+        return $this;
+    }
+
+    public function getRoleId(): ?int
+    {
+        return $this->role_id;
+    }
+
+    public function setRoleId(int $role_id): self
+    {
+        $this->role_id = $role_id;
 
         return $this;
     }

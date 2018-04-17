@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block body %}
+    <div class="ui one column grid ">
+        <div class="sixteen wide column">
+            <div class="ui piled segment">
+                {%  for category in categories %}
+                    <div class="ui segment">
+                        <p><strong>{{ category.name }}</strong></p>
+                        {%  for product in products %}
+                            {% if category.id == product.category_id %}
+                                <a href="/product/{{ product.product_id }}">{{ product.product_name }}</a>
+                                <br/>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

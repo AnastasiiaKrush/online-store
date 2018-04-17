@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block title %}Выбрать характеристики{% endblock %}
+{% block body %}
+    <div class="ui one column grid ">
+        <div class="sixteen wide column" style="height: 100%">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_choose_product_characteristic_value') }}" method="post">
+                    <div class="field">
+                        <select class="ui fluid dropdown" multiple="" name="product[characteristic][]">
+                            <option value="">Выбрать характеристики товара</option>
+                            {% for characteristic in characteristics %}
+                                <option value="{{ characteristic.id }}">{{ characteristic.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <input hidden value="{{product_category_ids}}" name="product_category_ids"/>
+                    <input class="ui fluid tiny button" type="submit" value="Далее" />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

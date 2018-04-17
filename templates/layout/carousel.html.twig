@@ -1,0 +1,8 @@
+<div class="centerCarousel">
+    {% for stock_product in stock_products %}
+        <div>
+            <img class="ui medium bordered image" src="/assets/img/{{ stock_product.link }}">
+            <p>{{ stock_product.description_short }}</p>
+        </div>
+    {% endfor %}
+</div>

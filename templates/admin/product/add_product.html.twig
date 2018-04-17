@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+{% block title %}Добавить продукт{% endblock %}
+{% block body %}
+
+    <div class="ui one column grid ">
+        <div class="sixteen wide column" style="height: 100%">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_save_product') }}" method="post">
+                    <h4 class="ui dividing header">Добавить продукт</h4>
+                    <div class="field">
+                        <input type="text" placeholder="Введите название" name="product[name]" >
+                    </div>
+
+                    <div class="field">
+                        <textarea rows="2" placeholder="Введите короткое описание продукта" name="product[description_short]"></textarea>
+                    </div>
+                    <div class="field">
+                        <textarea placeholder="Введите полное описание продукта" name="product[description_full]"></textarea>
+                    </div>
+                    <div class="number">
+                        <input type="text" placeholder="Введите стоимость товара" name="product[price_old]" >
+                    </div>
+                    {#<input hidden value="{{product_id}}" name="product_id"/>#}
+                    <input hidden value="{{product_category_ids}}" name="product_category_ids"/>
+                    <input hidden value="{{product_characteristics}}" name="product_characteristics"/>
+                    <input hidden value="{{product_image_names}}" name="product_image_names"/>
+                    <input class="ui fluid tiny button" type="submit" value="Сохранить" />
+                    {{ form_row(form._token) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

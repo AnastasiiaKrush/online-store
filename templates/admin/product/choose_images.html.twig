@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block title %}Загрузить изображения{% endblock %}
+{% block body %}
+    <div class="ui one column grid ">
+        <div class="sixteen wide column" style="height: 100%">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_add_product') }}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="product_images[]"/>
+                    <input type="file" name="product_images[]"/>
+                    <input type="file" name="product_images[]"/>
+
+                    <input hidden value="{{product_category_ids}}" name="product_category_ids"/>
+                    <input hidden value="{{product_characteristics}}" name="product_characteristics"/>
+
+                    <input class="ui fluid tiny button" type="submit" value="Далее" />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

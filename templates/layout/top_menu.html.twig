@@ -1,0 +1,48 @@
+<div class="ui container">
+    <a href="/" class="header item">
+        <img class="logo" src="/assets/img/logo.png">
+        Главная
+    </a><div class="ui simple dropdown item">
+        Категории <i class="dropdown icon"></i>
+        <div class="menu">
+            {% for category in categories %}
+                <a class="item" href="#">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="right menu">
+        <div class="item">
+            <div class="ui icon input">
+                <input type="text" placeholder="Search...">
+                <i class="search link icon"></i>
+            </div>
+        </div>
+        <div class="item">
+            {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')) %}
+                <div class="ui simple dropdown item">
+                    Здравствуйте, {{ user.name }}
+                    <div class="menu">
+                        <div class="ui two column grid">
+                            <div class="four wide column">
+                                <img class="left floated mini ui image" src="/assets/img/avatar.png">
+                            </div>
+                            <div class="six wide column">
+                                <h4 class="ui header">
+                                    {{ user.name}} {{ user.lastName}}
+                                    <br/>
+                                    {{ user.login}}
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <div class="ui bottom attached  green button"><a class="item" href="/logout">Выход</a></div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <a class="item" href="/login">Вход</a>
+                <a class="item" href="/register">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

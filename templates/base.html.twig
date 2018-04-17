@@ -1,12 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Добро пожаловать!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="/assets/css/styles.css">
+            <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="ui menu">
+            {{ render(controller(
+                'App\\Controller\\MenuController::topMenu'
+            )) }}
+        </div>
+        <div class="ui two column grid" >
+            <div class="two wide column">
+                    {% if (is_granted('ROLE_ADMIN')) %}
+                        {% include "/layout/left_menu.html.twig" %}
+                    {% endif %}
+            </div>
+
+            <div class="fourteen wide column">
+                <div class="ui one column centered grid" >
+
+                    <div class="six wide column">
+                        {{ render(controller(
+                            'App\\Controller\\LayoutController::stockProducts'
+                        )) }}
+                    </div>
+
+                </div>
+
+                <div class="ui two column internally celled centered padded grid">
+                    <div class="ten wide column">
+                        {% block body %}{% endblock %}
+                    </div>
+                    <div class="three wide orange column">
+                        Side menu
+                    </div>
+                </div>
+                <div class="ui vertical footer segment">
+                    <div class="ui center aligned container">
+                        <img src="/assets/img/logo.png" class="ui centered mini image">
+                        <div class="ui horizontal small divided link list">
+                            <a class="item" href="#">Ссылка</a>
+                            <a class="item" href="#">Ссылка</a>
+                            <a class="item" href="#">Ссылка</a>
+                            <a class="item" href="#">Ссылка</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% block javascripts %}
+        <script src="/assets/js/carousel.js"></script>
+        <script src="/assets/js/dropdown.js"></script>
+    {% endblock %}
     </body>
 </html>

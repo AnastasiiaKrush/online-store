@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+{% block title %}Добавить категорию{% endblock %}
+{% block body %}
+
+    <div class="ui two column grid ">
+        <div class="six wide column" style="height: 100%">
+            <div class="ui piled segment">
+                <form class="ui form" action="{{ path('admin_create_category') }}" method="post">
+
+                    <a class="ui teal ribbon label">Добавить категорию</a>
+
+                    <div class="ui transparent input" id="new-category-name-input">
+                        <input type="text" placeholder="Введите название" name="category[name]" >
+                    </div>
+
+                    <input class="ui fluid tiny button" type="submit" value="Отправить" />
+                    {{ form_row(form._token) }}
+                </form>
+                {% if  errors is defined %}
+                    <div class="ui mini red message">
+                        {% for error in errors %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="ten wide column">
+            <div class="ui piled segment">
+                <table class="ui very basic collapsing celled table">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Записи</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td><h4 class="ui header"></h4>{{ category.c_name }}</td>
+                                <td><a class="ui yellow circular label">{{ category.post_count }}</a></td>
+                                <td>
+                                    <a class="ui teal mini button" href="/admin/category/edit/{{ category.c_id }}">Редактировать</a>
+                                    <a class="ui red mini button" href="/admin/category/delete/{{ category.c_id }}">Удалить</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
