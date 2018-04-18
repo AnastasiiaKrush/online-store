@@ -3,12 +3,15 @@
 namespace App\Controller\admin;
 
 use App\Entity\Category;
+use App\Entity\ProductImages;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Product;
 use App\Form\ProductType;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
 
 class ProductController extends Controller
 {
@@ -50,20 +53,59 @@ class ProductController extends Controller
             $imageNames = $_POST['product_image_names'];
             $imageNames = explode(',', $imageNames);
 
+            $productCategoryIds = explode(',', $productCategoryIds);
+            $productCharacteristics = explode(';', $productCharacteristics);
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
 
-        foreach ($imageNames as $imageName) {
-            $entityManager
-                ->createQueryBuilder()
-                ->insert('App\Entity\ProductImages', 'pi')
-                ->values(['product_id' => '?', 'is_preview' => '?', 'link' => '?', 'is_slider' => '?'])
-                ->setParameter(0, $product->getId())
-                ->setParameter(1, 0)
-                ->setParameter(2, $imageName)
-                ->setParameter(3, 0);
-        }
+
+
+            $config = new Configuration();
+
+            $connectionParams = array(
+                'dbname' => 'shop-php-academy',
+                'user' => 'root',
+                'password' => '',
+                'host' => 'localhost',
+                'driver' => 'pdo_mysql',
+            );
+            $conn = DriverManager::getConnection($connectionParams, $config);
+
+            foreach ($imageNames as $imageName) {
+                $conn
+                    ->insert('product_images',
+                        [
+                            'product_id' => $product->getId(),
+                            'is_preview' => 0,
+                            'link' => $imageName,
+                            'is_slider' => 0
+                        ]);
+            }
+
+            foreach ($productCharacteristics as $productCharacteristic) {
+                $arr = explode(',', $productCharacteristic);
+                if (!isset($arr[1])) break;
+                $conn
+                    ->insert('product_characteristic',
+                        [
+                            'product_id' => $product->getId(),
+                            'characteristic_id' => trim($arr[0]),
+                            '`value`' => trim($arr[1])
+                        ]);
+            }
+
+            foreach ($productCategoryIds as $productCategoryId) {
+                $conn
+                    ->insert('product_category',
+                        [
+                            'product_id' => $product->getId(),
+                            'category_id' => trim($productCategoryId)
+                        ]);
+            }
+
             return $this->render(
                 'admin/product/save_product.html.twig',
                 [
